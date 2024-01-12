@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
-import { Navigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const {
@@ -8,9 +10,14 @@ const Login = () => {
     setError,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
+  const notify = () => toast.success("sucessfull logined!");
+
   const onSubmit = (data) => {
-    if (data.login === "admin" && data.password === "12345") {
+    if (data.login === "admin" && data.password === "Test123") {
       localStorage.setItem("auth", true);
+      notify();
+      navigate("/");
     } else {
       setError("login", {
         type: "manual",
@@ -19,7 +26,6 @@ const Login = () => {
     }
   };
 
-  if (localStorage.getItem("auth")) return <Navigate to={"/"} />;
   return (
     <div
       style={{
